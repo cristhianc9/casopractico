@@ -13,32 +13,36 @@ create table public.stg_mystery_shopping(
 	titulo_cuestionario	varchar(50)
 );
 
-
-CREATE TABLE public.dim_localidad (
-	provincia varchar(25) NULL,
-	poblacion text NULL,
-	cp int8 NULL,
-	cod_loc varchar(15) NULL,
-	nombre_loc text NULL,
-	oficina varchar(3) NULL,
-	id_localidad int8 NOT NULL
+create table public.dim_localidad (
+	id_localidad int not null,
+	provincia varchar(25) null,
+	poblacion text null,
+	cp int null ,
+	cod_loc varchar(15) null,
+	nombre_loc text null,
+	oficina varchar(3) null,
+	primary key (id_localidad)
 );
 
 create table public.dim_proyecto(
-	id_proy		varchar(15),
+	id_proy		int,
 	cod_proy	varchar(15),
-	titulo_cuestionario	varchar(50)
-);
-
-CREATE TABLE public.fac_evaluacion (
-	id_evaluacion int8 NULL,
-	id_localidad int8 NULL,
-	id_auditor int8 NULL,	
-	id_proyecto varchar(15) NULL,	
-	tbl_evaluacion_id numeric NULL
+	titulo_cuestionario	varchar(50),
+	primary key (id_proy)
 );
 
 create table public.dim_auditor(
 	id_auditor	int,
-	cod_auditor	varchar(10)
+	cod_auditor	varchar(10),
+	primary key (id_auditor)
+);
+
+create table public.fac_evaluacion (
+	tbl_evaluacion_id int null,
+	id_evaluacion int null,
+	id_localidad int null,
+	id_proyecto varchar(15) null,
+	id_auditor	int,
+	resultado numeric(9, 4) null,
+	primary key (tbl_evaluacion_id)
 );
