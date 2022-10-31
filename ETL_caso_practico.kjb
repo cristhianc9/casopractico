@@ -22,6 +22,57 @@ Octubre 2022
   <modified_date>2022/10/25 20:05:03.500</modified_date>
   <parameters>
     </parameters>
+  <connection>
+    <name>postgres</name>
+    <server>localhost</server>
+    <type>POSTGRESQL</type>
+    <access>Native</access>
+    <database>${DATABASE_NAME}</database>
+    <port>${DATABASE_PORT}</port>
+    <username>${DB_USUARIO}</username>
+    <password>${DB_PASSWRD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>${DATABASE_PORT}</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
   <slaveservers>
     </slaveservers>
   <job-log-table>
@@ -354,7 +405,7 @@ Octubre 2022
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>304</xloc>
+      <xloc>192</xloc>
       <yloc>240</yloc>
       <attributes_kjc/>
     </entry>
@@ -391,7 +442,7 @@ Octubre 2022
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>480</xloc>
+      <xloc>576</xloc>
       <yloc>240</yloc>
       <attributes_kjc/>
     </entry>
@@ -403,7 +454,7 @@ Octubre 2022
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>864</xloc>
+      <xloc>976</xloc>
       <yloc>240</yloc>
       <attributes_kjc/>
     </entry>
@@ -442,7 +493,29 @@ Octubre 2022
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>704</xloc>
+      <xloc>832</xloc>
+      <yloc>240</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>SQL vaciar data</name>
+      <description/>
+      <type>SQL</type>
+      <attributes/>
+      <sql>delete from fac_evaluacion;
+delete from dim_proyecto;
+delete from dim_auditor;
+delete from dim_localidad;
+delete from dim_tiempo;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>postgres</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>352</xloc>
       <yloc>240</yloc>
       <attributes_kjc/>
     </entry>
@@ -458,15 +531,6 @@ Octubre 2022
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>Stage</from>
-      <to>PROCESAR DIMENSIONES</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>PROCESAR DIMENSIONES</from>
       <to>FAC_evaluacion</to>
       <from_nr>0</from_nr>
@@ -478,6 +542,24 @@ Octubre 2022
     <hop>
       <from>FAC_evaluacion</from>
       <to>Success</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SQL vaciar data</from>
+      <to>PROCESAR DIMENSIONES</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Stage</from>
+      <to>SQL vaciar data</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

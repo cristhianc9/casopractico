@@ -436,7 +436,7 @@
   <notepads>
   </notepads>
   <connection>
-    <name>posgres</name>
+    <name>postgres</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
@@ -508,6 +508,16 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
+      <from>dim_auditor</from>
+      <to>dim_tiempo</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_tiempo</from>
+      <to>Add sequence</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>dim_localidad</from>
       <to>dim_proyecto</to>
       <enabled>Y</enabled>
@@ -515,11 +525,6 @@
     <hop>
       <from>dim_proyecto</from>
       <to>dim_auditor</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>dim_auditor</from>
-      <to>Add sequence</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -536,7 +541,7 @@
     </partitioning>
     <valuename>tbl_evaluacion_id</valuename>
     <use_database>N</use_database>
-    <connection>posgres</connection>
+    <connection>postgres</connection>
     <schema/>
     <seqname>SEQ_</seqname>
     <use_counter>Y</use_counter>
@@ -569,14 +574,14 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>posgres</connection>
+    <connection>postgres</connection>
     <schema>${DATABASE_SCHEMA}</schema>
     <table>fac_evaluacion</table>
     <commit>1000</commit>
-    <truncate>Y</truncate>
+    <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
+    <specify_fields>Y</specify_fields>
     <partitioning_enabled>N</partitioning_enabled>
     <partitioning_field/>
     <partitioning_daily>N</partitioning_daily>
@@ -587,6 +592,34 @@
     <return_keys>N</return_keys>
     <return_field/>
     <fields>
+      <field>
+        <column_name>tbl_evaluacion_id</column_name>
+        <stream_name>tbl_evaluacion_id</stream_name>
+      </field>
+      <field>
+        <column_name>id_evaluacion</column_name>
+        <stream_name>id_evaluacion</stream_name>
+      </field>
+      <field>
+        <column_name>id_localidad</column_name>
+        <stream_name>id_localidad</stream_name>
+      </field>
+      <field>
+        <column_name>id_proyecto</column_name>
+        <stream_name>id_proyecto</stream_name>
+      </field>
+      <field>
+        <column_name>id_auditor</column_name>
+        <stream_name>id_auditor</stream_name>
+      </field>
+      <field>
+        <column_name>id_tiempo</column_name>
+        <stream_name>id_tiempo</stream_name>
+      </field>
+      <field>
+        <column_name>resultado</column_name>
+        <stream_name>resultado</stream_name>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -616,21 +649,31 @@
     <fields>
       <field>
         <name>tbl_evaluacion_id</name>
+        <rename/>
       </field>
       <field>
         <name>id_evaluacion</name>
+        <rename/>
       </field>
       <field>
         <name>id_localidad</name>
+        <rename/>
       </field>
       <field>
         <name>id_proyecto</name>
+        <rename/>
       </field>
       <field>
         <name>id_auditor</name>
+        <rename/>
+      </field>
+      <field>
+        <name>id_tiempo</name>
+        <rename/>
       </field>
       <field>
         <name>resultado</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -708,6 +751,14 @@
         <presorted>N</presorted>
       </field>
       <field>
+        <name>id_tiempo</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
         <name>resultado</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
@@ -741,7 +792,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>posgres</connection>
+    <connection>postgres</connection>
     <sql>SELECT
   cod_loc
 , nombre_loc
@@ -791,7 +842,7 @@ FROM "public".stg_mystery_shopping
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>nombre_loc</name>
-        <length>2147483647</length>
+        <length>60</length>
         <precision>-1</precision>
         <origin>Stage Table input</origin>
         <comments>nombre_loc</comments>
@@ -814,7 +865,7 @@ FROM "public".stg_mystery_shopping
         <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>cp</name>
-        <length>15</length>
+        <length>9</length>
         <precision>0</precision>
         <origin>Stage Table input</origin>
         <comments>cp</comments>
@@ -837,7 +888,7 @@ FROM "public".stg_mystery_shopping
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>poblacion</name>
-        <length>2147483647</length>
+        <length>50</length>
         <precision>-1</precision>
         <origin>Stage Table input</origin>
         <comments>poblacion</comments>
@@ -929,7 +980,7 @@ FROM "public".stg_mystery_shopping
         <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>id_evaluacion</name>
-        <length>15</length>
+        <length>9</length>
         <precision>0</precision>
         <origin>Stage Table input</origin>
         <comments>id_evaluacion</comments>
@@ -949,10 +1000,10 @@ FROM "public".stg_mystery_shopping
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>Timestamp</type>
+        <type>Date</type>
         <storagetype>normal</storagetype>
         <name>fecha_ejecucion</name>
-        <length>6</length>
+        <length>-1</length>
         <precision>-1</precision>
         <origin>Stage Table input</origin>
         <comments>fecha_ejecucion</comments>
@@ -975,7 +1026,7 @@ FROM "public".stg_mystery_shopping
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>cod_auditor</name>
-        <length>2147483647</length>
+        <length>10</length>
         <precision>-1</precision>
         <origin>Stage Table input</origin>
         <comments>cod_auditor</comments>
@@ -998,7 +1049,7 @@ FROM "public".stg_mystery_shopping
         <type>Number</type>
         <storagetype>normal</storagetype>
         <name>resultado</name>
-        <length>9</length>
+        <length>5</length>
         <precision>4</precision>
         <origin>Stage Table input</origin>
         <comments>resultado</comments>
@@ -1021,7 +1072,7 @@ FROM "public".stg_mystery_shopping
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>titulo_cuestionario</name>
-        <length>2147483647</length>
+        <length>50</length>
         <precision>-1</precision>
         <origin>Stage Table input</origin>
         <comments>titulo_cuestionario</comments>
@@ -1066,12 +1117,12 @@ FROM "public".stg_mystery_shopping
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>posgres</connection>
+    <connection>postgres</connection>
     <cache>N</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>public</schema>
+      <schema>${DATABASE_SCHEMA}</schema>
       <table>dim_auditor</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
@@ -1086,7 +1137,7 @@ FROM "public".stg_mystery_shopping
         <name>id_auditor</name>
         <rename>id_auditor</rename>
         <default/>
-        <type>None</type>
+        <type>Integer</type>
       </value>
     </lookup>
     <attributes/>
@@ -1114,12 +1165,12 @@ FROM "public".stg_mystery_shopping
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>posgres</connection>
+    <connection>postgres</connection>
     <cache>N</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>public</schema>
+      <schema>${DATABASE_SCHEMA}</schema>
       <table>dim_localidad</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
@@ -1164,7 +1215,7 @@ FROM "public".stg_mystery_shopping
         <name>id_localidad</name>
         <rename>id_localidad</rename>
         <default/>
-        <type>BigNumber</type>
+        <type>Integer</type>
       </value>
     </lookup>
     <attributes/>
@@ -1192,16 +1243,16 @@ FROM "public".stg_mystery_shopping
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>posgres</connection>
+    <connection>postgres</connection>
     <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
+    <cache_load_all>Y</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>public</schema>
+      <schema>${DATABASE_SCHEMA}</schema>
       <table>dim_proyecto</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
+      <eat_row_on_failure>Y</eat_row_on_failure>
       <key>
         <name>cod_proy</name>
         <field>cod_proy</field>
@@ -1215,10 +1266,10 @@ FROM "public".stg_mystery_shopping
         <name2/>
       </key>
       <value>
-        <name>id_proy</name>
+        <name>id_proyecto</name>
         <rename>id_proyecto</rename>
         <default/>
-        <type>None</type>
+        <type>Integer</type>
       </value>
     </lookup>
     <attributes/>
@@ -1230,7 +1281,55 @@ FROM "public".stg_mystery_shopping
       </output>
     </remotesteps>
     <GUI>
-      <xloc>528</xloc>
+      <xloc>544</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_tiempo</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>postgres</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>${DATABASE_SCHEMA}</schema>
+      <table>dim_tiempo</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>Y</eat_row_on_failure>
+      <key>
+        <name>fecha_ejecucion</name>
+        <field>fecha</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_tiempo</name>
+        <rename>id_tiempo</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>848</xloc>
       <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>

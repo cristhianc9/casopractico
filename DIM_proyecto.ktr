@@ -525,9 +525,9 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <valuename>id_proy</valuename>
+    <valuename>id_proyecto</valuename>
     <use_database>N</use_database>
-    <connection>postgresql</connection>
+    <connection>postgres</connection>
     <schema/>
     <seqname>SEQ_</seqname>
     <use_counter>Y</use_counter>
@@ -564,10 +564,10 @@
     <schema>${DATABASE_SCHEMA}</schema>
     <table>dim_proyecto</table>
     <commit>1000</commit>
-    <truncate>Y</truncate>
+    <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
+    <specify_fields>Y</specify_fields>
     <partitioning_enabled>N</partitioning_enabled>
     <partitioning_field/>
     <partitioning_daily>N</partitioning_daily>
@@ -578,6 +578,18 @@
     <return_keys>N</return_keys>
     <return_field/>
     <fields>
+      <field>
+        <column_name>cod_proy</column_name>
+        <stream_name>cod_proy</stream_name>
+      </field>
+      <field>
+        <column_name>titulo_cuestionario</column_name>
+        <stream_name>titulo_cuestionario</stream_name>
+      </field>
+      <field>
+        <column_name>id_proyecto</column_name>
+        <stream_name>id_proyecto</stream_name>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -606,13 +618,16 @@
     </partitioning>
     <fields>
       <field>
-        <name>id_proy</name>
+        <name>cod_proy</name>
+        <rename/>
       </field>
       <field>
         <name>titulo_cuestionario</name>
+        <rename/>
       </field>
       <field>
-        <name>cod_proy</name>
+        <name>id_proyecto</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
