@@ -10,12 +10,13 @@
 		**DATABASE_NAME** = postgres
 
 		**DATABASE_PORT** = 5432
-		
+
 		**DATABASE_SCHEMA** = public
-		
+
 		***DB_USUARIO*** = admin
-		
+
 		***DB_PASSWRD*** = admin
+	
 
 - Ejecutar el *Spoon.bat*
 - Abrir el JOB con nombre ***ETL_caso_practico.kjb***
