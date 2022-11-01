@@ -649,31 +649,24 @@
     <fields>
       <field>
         <name>tbl_evaluacion_id</name>
-        <rename/>
       </field>
       <field>
         <name>id_evaluacion</name>
-        <rename/>
       </field>
       <field>
         <name>id_localidad</name>
-        <rename/>
       </field>
       <field>
         <name>id_proyecto</name>
-        <rename/>
       </field>
       <field>
         <name>id_auditor</name>
-        <rename/>
       </field>
       <field>
         <name>id_tiempo</name>
-        <rename/>
       </field>
       <field>
         <name>resultado</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -1252,7 +1245,7 @@ FROM "public".stg_mystery_shopping
       <table>dim_proyecto</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>Y</eat_row_on_failure>
+      <eat_row_on_failure>N</eat_row_on_failure>
       <key>
         <name>cod_proy</name>
         <field>cod_proy</field>
